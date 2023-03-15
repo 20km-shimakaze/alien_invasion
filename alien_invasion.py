@@ -9,6 +9,7 @@ from button import Button
 from game_status import GameStatus
 from time import sleep
 from scoreboard import Scoreboard
+import pygame.font
 
 
 class AlienInvasion:
@@ -32,6 +33,8 @@ class AlienInvasion:
         # 是否全屏
         self.full_screen = False
 
+        # 时钟对象
+        self.clock = pygame.time.Clock()
 
         # 创建play按钮
         self.play_button = Button(self, "Play")
@@ -39,6 +42,7 @@ class AlienInvasion:
     def run_game(self):
         """开始游戏的主循环"""
         while True:
+            self.clock.tick(self.settings.max_fps)
             self._check_events()
             if self.status.game_active:
                 self.ship.update()
@@ -124,6 +128,8 @@ class AlienInvasion:
             self.play_button.draw_button()
         # 让最近绘制的屏幕可见
         pygame.display.flip()
+
+
 
     def _update_settings(self):
         """更新屏幕大小"""

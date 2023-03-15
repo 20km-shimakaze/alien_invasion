@@ -19,7 +19,7 @@ class Scoreboard:
         self.prep_score()
 
     def prep_score(self):
-        """将得分转换为衣服渲染的图像"""
+        """将得分转换为渲染的图像"""
         score_str = str(self.status.score)
         self.score_imag = self.font.render(score_str, True, self.text_color, self.settings.bg_color)
 
