@@ -10,6 +10,8 @@ from game_status import GameStatus
 from time import sleep
 from scoreboard import Scoreboard
 import pygame.font
+from text_board import TextBoard
+import jsonUtils
 
 
 class AlienInvasion:
@@ -29,6 +31,10 @@ class AlienInvasion:
         self.sb = Scoreboard(self)
         self.alien_time = 0
         # self._creat_fleet()
+
+        # 左上角的最大分数
+        self.best_score = TextBoard(self, 20, 20)
+        self.best_score.prep_score('最高分：'+str(self._get_best_score()))
 
         # 是否全屏
         self.full_screen = False
@@ -123,13 +129,16 @@ class AlienInvasion:
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
         self.sb.show_score()
+        self.best_score.show_score()
         #
         if not self.status.game_active:
             self.play_button.draw_button()
         # 让最近绘制的屏幕可见
         pygame.display.flip()
 
-
+    def _get_best_score(self):
+        best_score = jsonUtils.read_json('data.json')['best']['score']
+        return best_score
 
     def _update_settings(self):
         """更新屏幕大小"""
