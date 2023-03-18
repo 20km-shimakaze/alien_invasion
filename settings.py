@@ -20,7 +20,7 @@ class Settings:
         self.alien_speed_y_default = 0.09
         self.alien_speed_add_default = 1000
         # 飞船设置
-        self.ships_left_default = 3
+        self.ships_left_default = 1
 
         # 屏幕设置
         self.screen_width = 1200
@@ -42,7 +42,7 @@ class Settings:
         self.alien_speed_add = 100
 
         # 飞船设置
-        self.ships_left = 3
+        self.ships_left = 1
 
         # 最大帧率设置
         self.max_fps = 300

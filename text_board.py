@@ -16,7 +16,7 @@ class TextBoard:
 
         # 显示得分信息时使用的字体设置
         self.text_color = (30, 30, 30)
-        self.font = pygame.font.SysFont(None, 48)
+        self.font = pygame.font.SysFont("SimHei", 30)
         # 准备初始得分图像'
         self.prep_score(0)
 
@@ -24,7 +24,6 @@ class TextBoard:
         """将得分转换为渲染的图像"""
         score_str = str(text)
         self.score_imag = self.font.render(score_str, True, self.text_color, self.settings.bg_color)
-        # bug!!!
 
         # 在屏幕右上角显示得分
         self.score_rect = self.score_imag.get_rect()

@@ -1,4 +1,6 @@
 import sys
+import time
+
 from settings import Settings
 import pygame
 from ship import Ship
@@ -32,9 +34,12 @@ class AlienInvasion:
         self.alien_time = 0
         # self._creat_fleet()
 
+        # 历史最高分
+        self.json_data = self._get_json_data()
+
         # 左上角的最大分数
         self.best_score = TextBoard(self, 20, 20)
-        self.best_score.prep_score('最高分：'+str(self._get_best_score()))
+        self.best_score.prep_score('最高分：' + str(self.json_data['best']['score']))
 
         # 是否全屏
         self.full_screen = False
@@ -91,6 +96,7 @@ class AlienInvasion:
             # 向右移动飞船
             self.ship.moving_left = True
         elif event.key == pygame.K_ESCAPE:
+            self._exit_before()
             sys.exit()
         elif event.key == pygame.K_BACKQUOTE:
             # 按~切换是否全屏
@@ -136,9 +142,8 @@ class AlienInvasion:
         # 让最近绘制的屏幕可见
         pygame.display.flip()
 
-    def _get_best_score(self):
-        best_score = jsonUtils.read_json('data.json')['best']['score']
-        return best_score
+    def _get_json_data(self):
+        return jsonUtils.read_json('data.json')
 
     def _update_settings(self):
         """更新屏幕大小"""
@@ -178,6 +183,9 @@ class AlienInvasion:
                     self._alien_hit()
                 else:
                     self.status.game_active = False
+                    # 一局游戏结束，计算成绩
+                    self._exit_before()
+
                     pygame.mouse.set_visible(True)
                 self.aliens.remove(alien)
             elif alien.rect.left <= 0 or alien.rect.right >= self.settings.screen_width:
@@ -209,6 +217,16 @@ class AlienInvasion:
         # alien.x = alien_with + 2 * alien_with * alien_number
         alien.rect.x = alien.x
         self.aliens.add(alien)
+
+    def _exit_before(self):
+        if self.json_data['best']['score'] < self.status.score:
+            self.json_data['best']['score'] = self.status.score
+            self.json_data['best']['time'] = time.localtime()
+            print("成绩更新！分数为", self.json_data['best']['score'])
+        self.json_data['history'].append([{'time': time.localtime(), 'score': self.status.score}])
+        self.best_score.prep_score('最高分：' + str(self.json_data['best']['score']))
+        self.best_score.show_score()
+        jsonUtils.write_json('data.json', self.json_data)
 
 
 if __name__ == '__main__':
