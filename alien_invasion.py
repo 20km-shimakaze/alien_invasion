@@ -14,6 +14,7 @@ from scoreboard import Scoreboard
 import pygame.font
 from text_board import TextBoard
 import jsonUtils
+from time_board import TimeBoard
 
 
 class AlienInvasion:
@@ -50,6 +51,9 @@ class AlienInvasion:
         # 创建play按钮
         self.play_button = Button(self, "Play")
 
+        # 左上角显示游戏进行多少秒
+        self.game_time = TimeBoard(self)
+
     def run_game(self):
         """开始游戏的主循环"""
         while True:
@@ -82,6 +86,7 @@ class AlienInvasion:
             self.status.reset_status()
             self.status.game_active = True
             self.sb.prep_score()
+            self.game_time.reset()
             self.aliens.empty()
             self.bullets.empty()
             # 隐藏鼠标
@@ -135,6 +140,7 @@ class AlienInvasion:
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
         self.sb.show_score()
+        self.game_time.show()
         self.best_score.show_score()
         #
         if not self.status.game_active:

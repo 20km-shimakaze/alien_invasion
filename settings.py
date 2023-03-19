@@ -17,7 +17,7 @@ class Settings:
         self.bullet_allowed_default = 400
         # 外星人设置默认
         self.alien_speed_x_default = 0.6
-        self.alien_speed_y_default = 0.09
+        self.alien_speed_y_default = 0.15
         self.alien_speed_add_default = 1000
         # 飞船设置
         self.ships_left_default = 1
