@@ -100,6 +100,12 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             # 向右移动飞船
             self.ship.moving_left = True
+        elif event.key == pygame.K_UP:
+            # 向上移动飞船
+            self.ship.moving_up = True
+        elif event.key == pygame.K_DOWN:
+            # 向下移动飞船
+            self.ship.moving_down = True
         elif event.key == pygame.K_ESCAPE:
             self._exit_before()
             sys.exit()
@@ -124,6 +130,10 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = False
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = False
 
     def _fire_bullet(self):
         """创建一颗子弹，并加入到编组bullets中"""
