@@ -185,7 +185,8 @@ class AlienInvasion:
     def _update_aliens(self):
         """更新外星人位置信息和生成外星人"""
         self.aliens.update()
-
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._alien_hit()
         # 一定时间后随机生成一个外星人
         self.alien_time += 1
         if self.alien_time >= self.settings.alien_speed_add:
@@ -209,6 +210,12 @@ class AlienInvasion:
 
     def _alien_hit(self):
         self.settings.ships_left -= 1
+        if self.settings.ships_left <= 0:
+            self.status.game_active = False
+            # 一局游戏结束，计算成绩
+            self._exit_before()
+            pygame.mouse.set_visible(True)
+
         print('hit!')
         self.aliens.empty()
         self.bullets.empty()
@@ -235,6 +242,10 @@ class AlienInvasion:
         self.aliens.add(alien)
 
     def _exit_before(self):
+        self._save_data()
+        self.ship.rect.midbottom = self.screen.get_rect().midbottom
+
+    def _save_data(self):
         if self.json_data['best']['score'] < self.status.score:
             self.json_data['best']['score'] = self.status.score
             self.json_data['best']['time'] = time.localtime()
