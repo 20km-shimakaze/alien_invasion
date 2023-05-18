@@ -46,3 +46,8 @@ class Settings:
 
         # 最大帧率设置
         self.max_fps = 300
+
+        # 设置界面
+        self.set_screen_width = 600
+        self.set_screen_height = 500
+
