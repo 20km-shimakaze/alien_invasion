@@ -15,6 +15,8 @@ import pygame.font
 from text_board import TextBoard
 import jsonUtils
 from time_board import TimeBoard
+from setting_button import SettingButton
+from setting_screen import SetScreen
 
 
 class AlienInvasion:
@@ -33,6 +35,7 @@ class AlienInvasion:
         self.status = GameStatus(self)
         self.sb = Scoreboard(self)
         self.alien_time = 0
+        self.set_but = SettingButton(self)
         # self._creat_fleet()
 
         # 历史最高分
@@ -78,6 +81,15 @@ class AlienInvasion:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
+                self._check_settings_button(mouse_pos)
+
+    def _check_settings_button(self, mouse_pos):
+        """在玩家点击设置之后打开设置界面"""
+        button_clicked = self.set_but.rect.collidepoint(mouse_pos)
+        if button_clicked:
+            pass
+            ## 砍了
+            # self.set_screen = SetScreen(self)
 
     def _check_play_button(self, mouse_pos):
         """在玩家点击Play之后开始游戏"""
@@ -152,6 +164,7 @@ class AlienInvasion:
         self.sb.show_score()
         self.game_time.show()
         self.best_score.show_score()
+        self.set_but.draw_button()
         #
         if not self.status.game_active:
             self.play_button.draw_button()
@@ -226,7 +239,7 @@ class AlienInvasion:
         alien = Alien(self)
         alien_with = alien.rect.width
         available_space_x = self.settings.screen_width - (2 * alien_with)
-        number_aliens_x = available_space_x // (2 * alien_with)
+        # number_aliens_x = available_space_x // (2 * alien_with)
 
         # # 创建第一行外星人
         # for alien_number in range(number_aliens_x):
